@@ -12,15 +12,23 @@ jobs:
   response:
     runs-on: ubuntu-latest
     steps:
-      - name: Create comment
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: 1
+          issue-number: ${{ github.event.number }}
           body: |
             This is a multi-line test comment
             - With GitHub **Markdown** :sparkles:
             - Created by [create-or-update-comment][1]
 
             [1]: https://github.com/peter-evans/create-or-update-comment
-            reactions: '+1'
-          # Add logic here to close the pull request.
+          reactions: '+1'
+
+      - name: Close Pull Request
+        if: github.event_name == 'pull_request_target'
+        run: |
+          # Add your logic here to close the pull request.
+          # For example, you can use GitHub API or other actions to close it.
