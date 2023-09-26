@@ -1,0 +1,30 @@
+name: build and testing
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  bulding:
+    runs-on: ubuntu-latest
+    name: run build
+    defaults:
+      run:
+        shell: bash
+    steps:
+       - name: checkout repository
+         uses: actions/checkout@v2
+         
+       - name: installing dependencies
+         run: npm install
+        
+       - name: running build
+         run: npm run build
+         
+       - name: running tests
+         run: npm run test
+    
