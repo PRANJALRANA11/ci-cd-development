@@ -20,11 +20,19 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This is a multi-line test comment
-            - With GitHub **Markdown** :sparkles:
-            - Created by [create-or-update-comment][1]
+            Hello! :wave: Thank you for creating this issue.
+
+            This is a multi-line comment with GitHub **Markdown** formatting:
+            - You can use **bold** and *italic* text.
+            - Add links, like [create-or-update-comment][1].
+            - Include emoji :sparkles: to make your message more engaging.
 
             [1]: https://github.com/peter-evans/create-or-update-comment
+
+            Don't hesitate to provide more details or ask questions if needed.
+
+            :+1: If you find this helpful!
+
           reactions: '+1'
 
       - name: Close Pull Request
