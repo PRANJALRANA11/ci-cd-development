@@ -12,17 +12,24 @@ jobs:
   response:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: |
-            Hello! Thank you for filing an issue.
+      - name: Check out code
+        uses: actions/checkout@v3
+      
+      - name: Post Comment on Issue
+        if: github.event_name == 'issues'
+        run: |
+          echo "Hello! Thank you for filing an issue."
+          echo "Thank you for creating an issue on this repository. The maintainer will triage it and will respond within a few days."
 
-            Thank you for creating an issue on this repository. The maintainer will triage it and will respond within a few days.
-          pr-message: |
-            Hello! Thank you for your contribution.
+      - name: Post Comment on Pull Request
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Hello! Thank you for your contribution."
+          echo "This repository is in READ ONLY mode. If you're trying to test the workflows, you need to create a fork of this repository to your organization or personal account before you can run the workflows!"
+          echo "If you've spotted a mistake that you'd like to see fixed, please create an issue instead. This PR will be closed shortly."
 
-            This repository is in READ ONLY mode. If you're trying to test the workflows, you need to create a fork of this repository to your organisation or personal account before you can run the workflows!
-            
-            If you've spotted a mistake that you'd like to see fixed, please create an issue instead. This PR will be closed shortly.
-
+      - name: Close Pull Request
+        if: github.event_name == 'pull_request_target'
+        run: |
+          echo "Closing the pull request..."
+          # Add logic here to close the pull request.
