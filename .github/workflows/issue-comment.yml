@@ -12,24 +12,15 @@ jobs:
   response:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      
-      - name: Post Comment on Issue
-        if: github.event_name == 'issues'
-        run: |
-          echo "Hello! Thank you for filing an issue."
-          echo "Thank you for creating an issue on this repository. The maintainer will triage it and will respond within a few days."
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: 1
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown** :sparkles:
+            - Created by [create-or-update-comment][1]
 
-      - name: Post Comment on Pull Request
-        if: github.event_name == 'pull_request'
-        run: |
-          echo "Hello! Thank you for your contribution."
-          echo "This repository is in READ ONLY mode. If you're trying to test the workflows, you need to create a fork of this repository to your organization or personal account before you can run the workflows!"
-          echo "If you've spotted a mistake that you'd like to see fixed, please create an issue instead. This PR will be closed shortly."
-
-      - name: Close Pull Request
-        if: github.event_name == 'pull_request_target'
-        run: |
-          echo "Closing the pull request..."
+            [1]: https://github.com/peter-evans/create-or-update-comment
+            reactions: '+1'
           # Add logic here to close the pull request.
