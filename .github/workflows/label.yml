@@ -24,28 +24,14 @@ jobs:
 
       - name: Label Commenter
         uses: peaceiris/actions-label-commenter@v1
-
-  automate_invite:
-    if: contains(github.event.issue.labels.*.name, 'issue/invite')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Invite on label
-        uses: vj-abigo/invite-on-label@v1.2
+        
+  add-comment:
+      if: github.event.label.name == 'issue/valid'
+      runs-on: ubuntu-latest
+      steps:
+      - name: Add comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
         with:
-          organization: layer5io
-          label: issue/invite
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          comment: "We are sending you an invitation to join the Layer5 GitHub Organization. :partying_face: <b>Welcome to the community! 🎉</b><br /><br />&nbsp;&nbsp;&nbsp;Be sure to :star: [star the projects](../stargazers), if you haven't already.<br />"
-        env:
-          INVITE_TOKEN: ${{ secrets.RELEASEDRAFTER_PAT }}
-  automate_Comment_On_issue_Valid:
-    if: contains(github.event.issue.labels.*.name, 'issue/valid')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Comment  on Valid issue
-        uses: vj-abigo/invite-on-label@v1.2
-        with:
-          organization: layer5io
-          label: issue/invite
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          comment: "We are sending you an invitation to join the Layer5 GitHub Organization. :partying_face: <b>Welcome to the community! 🎉</b><br /><br />&nbsp;&nbsp;&nbsp;Be sure to :star: [star the projects](../stargazers), if you haven't already.<br />"
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+              This issue is available for anyone to work on. **Make sure to reference this issue in your pull request.** :sparkles: Thank you for your contribution! :sparkles:
